@@ -1,0 +1,53 @@
+
+#Create a pod
+kubectl apply -f [file_name].yaml                 
+
+
+#Display all container group information
+kubectl get pods 	                              //Liệt kê các POD trong namespace hiện tại, thêm tham số -o wide hiện thị chi tiết hơn, thêm -A hiện thị tất cả namespace, thêm -n namespacename hiện thị Pod của namespace namespacename
+kubectl get po -o wide 
+
+#Display specific manifests in yaml format
+kubectl get po/[pod_name] -o yaml                 //Manifest của Pod xác định    
+
+#View the labels of the container group
+kubectl get po --show-labels
+
+#Describe specific node details
+kubectl describe po/[pod_name] 	                   //Thông tin chi tiết về Pod
+
+
+#Export container group information to yaml file in yaml format
+kubectl get pod [pod_name] -o yaml --export
+kubectl get pod [pod_name] -o yaml --export > nameoffile.yaml
+
+
+#Use the field selector to filter out container group information
+kubectl get pods --field-selector status.phase=Running
+
+
+#DELETE
+kubectl delete -f [file_name].yaml 	               //Xóa các tài nguyên tạo ra từ định nghĩa [file_name].yaml
+kubectl delete pod/[pod_name] 	                   //Xóa POD có tên [pod_name]
+kubectl delete --all pods --namespace=foo          //Xóa pods có namespace xác định
+kubectl delete --all pods                          //Xóa tất cả các pods
+
+
+#LOGS
+kubectl logs pod/[pod_name]	                       //Xem logs của POD có tên podname
+
+#Run command in existing pod (1 container case)
+kubectl exec [POD-NAME] command 	               //Chạy lệnh từ container của POD có tên mypod, nếu POD có nhiều container thêm vào tham số -c và tên container
+
+#Run command in existing pod specification (1 container case)
+kubectl exec -it po/[POD-NAME] bash 	           //Chạy lệnh bash của container trong POD mypod và gắn terminal
+
+#Interactive shell access to a running pod (1 container case)
+kubectl exec --stdin --tty [pod_name] -- /bin/sh
+
+
+#OTHETS
+kubectl explain pod --recursive=true 	           //Xem cấu trúc mẫu định nghĩa POD trong file cấu hình yaml
+
+#PROXY
+kubectl proxy 	                                   //Tạo server proxy truy cập đến các tài nguyên của Cluster. http://localhost/api/v1/namespaces/default/pods/mypod:8085/proxy/, truy cập đến container có tên mypod trong namespace mặc định.

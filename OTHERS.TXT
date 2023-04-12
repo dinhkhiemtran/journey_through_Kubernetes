@@ -1,0 +1,5 @@
+#WATCH
+watch -n [time] [command]  
+
+#Enter server
+ssh @root[IP]

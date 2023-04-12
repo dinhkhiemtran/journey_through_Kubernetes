@@ -1,0 +1,24 @@
+#Display all node information
+kubectl get no 
+
+#Show more information about all nodes
+kubectl get no -o wide 
+
+#Show more information about specific nodes
+kubectl get no/[node_name] -o wide 
+
+#Display specific node details
+kubectl describe no/[node_name] 
+
+#Display specific manifests in yaml format
+kubectl get no/[node_name] -o yaml 
+
+#Filter the node with the specified label
+kubectl get node --selector=[label_name] 
+
+
+#Output the field information defined by the jsonpath expression
+kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type="ExternalIP")].address}'
+
+# Display node (CPU/memory/storage) usage
+kubectl top node [node_name] 

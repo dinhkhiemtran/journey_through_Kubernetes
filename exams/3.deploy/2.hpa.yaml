@@ -1,0 +1,40 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  creationTimestamp: "2023-04-12T02:59:37Z"
+  name: deployapp
+  namespace: default
+  resourceVersion: "40127"
+  uid: 9254bf6d-7d04-40bc-8222-74dff6e3c5fd
+spec:
+  maxReplicas: 5
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: deployapp
+status:
+  conditions:
+  - lastTransitionTime: "2023-04-12T03:00:37Z"
+    message: the HPA controller was able to get the target's current scale
+    reason: SucceededGetScale
+    status: "True"
+    type: AbleToScale
+  - lastTransitionTime: "2023-04-12T03:01:38Z"
+    message: 'the HPA was unable to compute the replica count: failed to get cpu utilization:
+      unable to get metrics for resource cpu: unable to fetch metrics from resource
+      metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)'
+    reason: FailedGetResourceMetric
+    status: "False"
+    type: ScalingActive
+  currentMetrics: null
+  currentReplicas: 3
+  desiredReplicas: 3
+  lastScaleTime: "2023-04-12T03:00:37Z"
