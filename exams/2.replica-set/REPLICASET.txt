@@ -1,0 +1,19 @@
+
+#Display all replicas set group information
+kubectl get rs
+kubectl get rs -o wide
+
+#Describe specific node details
+kubectl describe rs/[rs_name]
+
+#Display specific Manifest in yaml format
+kubectl get rs/[rs_name] -o yaml
+
+#Liệt kê các POD có nhãn "app=rsapp"
+kubectl get po -l "app=[app_name]"
+
+#DELETE
+kubectl delete -f [file_name].yaml 
+kubectl delete rs/[rs_name] 	           //Xóa Replica set có tên [rs_name]
+kubectl delete --all rs --namespace=[namespace_name]    //Xóa pods có namespace xác định
+kubectl delete --all rs       
