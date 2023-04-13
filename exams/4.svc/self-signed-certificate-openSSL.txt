@@ -1,0 +1,12 @@
+#Xác thực SSL gồm có server certificate và private key, đối với nginx cấu hình qua hai thiết lập ssl_certificate và ssl_certificate_key tương ứng ta đã cấu hình là hai file tls.crt, tls.key. Ta để tên này vì theo cách đặt tên của letsencrypt.org, sau này bạn có thể thận tiện hơn nếu xin xác thực miễn phí từ đây.
+Thực hiện lệnh sau để sinh file tự xác thực
+openssl req -nodes -newkey rsa:2048 -keyout tls.key  -out ca.csr -subj "/CN=[blablalbla].net"
+openssl x509 -req -sha256 -days 365 -in ca.csr -signkey tls.key -out tls.crt
+
+
+#Tạo Secret tên secret-nginx-cert chứa các xác thực
+Thi hành lệnh sau để tạo ra một Secret (loại ổ đĩa chứa các thông tin nhạy cảm, nhỏ), Secret này kiểu tls, tức chứa xác thức SSL
+kubectl create secret tls secret-nginx-cert --cert=certs/tls.crt  --key=certs/tls.key
+
+#Secret này tạo ra thì mặc định nó đặt tên file là tls.crt và tls.key có thể xem với lệnh
+kubectl describe secret/secret-nginx-cert

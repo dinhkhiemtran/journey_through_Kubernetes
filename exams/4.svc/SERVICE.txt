@@ -1,0 +1,8 @@
+kubectl get svc
+kubectl describe svc
+kubectl get svc -o wide
+kubectl get svc -o yaml
+kubectl get svc --show-labels
+
+#Triển khai với lệnh
+kubectl apply -f 2.endpoint.yaml

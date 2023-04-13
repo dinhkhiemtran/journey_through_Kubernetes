@@ -3,3 +3,26 @@ watch -n [time] [command]
 
 #Enter server
 ssh @root[IP]
+
+Triển khai metrics server
+metrics server trong kubernetes (metrics server) giám sát về tài nguyên sử dụng trên cluster, cung cấp các API để các thành phần khác truy vấn đến biết được và mức độ sử dụng tài nguyên (CPU, Memory) của Pod, Node ... Cần có Metric Server để HPA hoạt động chính xác 
+
+#Để triển khai, lấy về mã nguồn từ GitHub
+git clone git@github.com:kubernetes-sigs/metrics-server.git
+
+#Mở file metrics-server/deploy/1.8+/metrics-server-deployment.yaml tìm đến dòng args: sửa lại thành
+        args:
+          - --cert-dir=/tmp
+          - --secure-port=4443
+          - --kubelet-insecure-tls
+          - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+
+#Sau đó triển khai
+kubectl apply -f deploy/1.8+/
+
+#Sửa file components.yml như trên rồi thực hiện lệnh:
+kubectl apply -f components.yml
+
+#Khi có Metric server thì trong Dashboard có thêm thống kê về CPU, Memory của các POD, và có thêm lệnh xem tài nguyên về Node, Pod
+kubectl top no
+kubectl top pod

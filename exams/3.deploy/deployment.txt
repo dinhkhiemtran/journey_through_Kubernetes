@@ -1,0 +1,68 @@
+kubectl describe deploy
+kubectl get deploy -o wide
+kubectl get deploy -o yaml
+
+#Thực hiện lệnh sau để triển khai
+kubectl apply -f 1.myapp-deploy.yaml
+
+#Display all deployment set group information
+kubectl get deploy
+kubectl get deploy -o wide
+
+#Display all replicas set group information
+kubectl get rs -o wide
+
+#Display all pods group information
+kubeclt get po -o wide
+
+# Hoặc lọc cả label
+kubectl get po -l "app=deployapp" -o wide
+
+#DELETE
+kubectl delete -f [file_name].yaml 	   //Xóa các tài nguyên tạo ra từ định nghĩa [file_name].yaml
+kubectl delete deploy/[deploy_name] 	           //Xóa deploy có tên [deploy_name]
+kubectl delete --all deploys --namespace=foo    //Xóa deploys có namespace xác định
+kubectl delete --all deploys       //Xóa tất cả các deploys
+
+
+#Cập nhật image mới trong POD - ví dụ thay image của container node bằng image mới httpd
+kubectl set image deploy/deployapp node=httpd --record
+
+#Để xem quá trình cập nhật của deployment
+kubectl rollout status deploy/[app_name]
+
+#Bạn cũng có thể cập nhật tài nguyên POD theo cách tương tự, ví dụ giới hạn CPU, Memory cho container với tên app-node
+kubectl set resources deploy/deployapp -c=node --limits=cpu=200m,memory=200Mi
+
+
+-------------------------------------------Horizontal Pod Autoscaler (HPA)---------------------------------------
+#Để liệt kê các hpa gõ lệnh
+kubectl get hpa
+
+#Thực hiện lệnh để triển khai
+kubectl apply -f 2.hpa.yaml
+
+----------------------------Rollback Deployment-------------------------------------
+#Kiểm tra các lần cập nhật (revision)
+kubectl rollout history deploy/[app_name]
+
+#Để xem thông tin bản cập nhật 1 thì gõ lệnh
+kubectl rollout history deploy/[app_name] --revision=1
+
+#Khi cần quay lại phiên bản cũ nào đó, ví dụ bản revision 1
+kubectl rollout undo deploy/[app_name] --to-revision=1
+
+#Nếu muốn quay lại bản cập nhật trước gần nhất
+kubectl rollout undo deploy/[deploy_name]
+
+
+---------------------------Scale Deployment--------------------------------------------
+
+#Scale thay đổi chỉ số replica (số lượng POD) của Deployment, ý nghĩa tương tự như scale đối với ReplicaSet trong phần trước. Ví dụ để scale với 10 POD thực hiện lệnh:
+kubectl scale deploy/deployapp --replicas=10
+
+#Muốn thiết lập scale tự động với số lượng POD trong khoảng min, max và thực hiện scale khi CPU của POD hoạt động ở mức 50% thì thực hiện
+kubectl autoscale deploy/deployapp --min=2 --max=5 --cpu-percent=50
+
+#Bạn cũng có thể triển khai Scale từ khai báo trong một yaml. Hoặc có thể trích xuất scale ra để chỉnh sửa
+kubectl get hpa/deployapp -o yaml > 2.hpa.yaml
