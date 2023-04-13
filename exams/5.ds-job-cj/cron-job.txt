@@ -1,0 +1,8 @@
+CronJob (cj) - chạy các Job theo một lịch định sẵn. Việc lên lịch cho CronJob khai báo giống Cron của Linux. Xem Sử dụng Cron, Crontab từ động chạy script trên Server Linux
+
+
+# Danh sách các CronJob
+kubectl get cj -o wide
+
+# Danh sách các Job
+kubectl get jobs -o wide

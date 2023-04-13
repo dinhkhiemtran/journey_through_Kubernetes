@@ -1,0 +1,12 @@
+PersistentVolume (pv) là một phần không gian lưu trữ dữ liệu tronnng cluster, 
+các PersistentVolume giống với Volume bình thường tuy nhiên nó tồn tại độc lập với POD (pod bị xóa PV vẫn tồn tại), 
+có nhiều loại PersistentVolume có thể triển khai như NFS, Clusterfs ... 
+
+# triển khai
+kubectl apply -f 1.persistent-vol.yaml
+
+# liệt kê các PV
+kubectl get pv -o wide
+
+# thông tin chi tiết
+kubectl describe pv/pv1

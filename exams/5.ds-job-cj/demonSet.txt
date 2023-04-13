@@ -1,0 +1,6 @@
+DaemonSet (ds) đảm bảo chạy trên mỗi NODE một bản copy của POD. Triển khai DaemonSet khi cần ở mỗi máy (Node) một POD, thường dùng cho các ứng dụng như thu thập log, tạo ổ đĩa trên mỗi Node ... Dưới đây là ví dụ về DaemonSet, nó tạo tại mỗi Node một POD chạy nginx
+
+kubectl get ds
+kubectl describe ds --all-namespaces
+kubectl describe ds [daemonset_name] -n [namespace_name]
+kubectl get ds [ds_name] -n [ns_name] -o yaml
